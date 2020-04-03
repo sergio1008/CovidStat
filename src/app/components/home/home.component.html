@@ -1,0 +1,78 @@
+<div class="pt-3">
+    <div  class="card-columns">
+        <div class="card shadow-sm rounded text-white bg-primary mb-3" >
+            <div class="card-header">Infectados</div>
+            <div class="card-body">
+              <h1 class="card-title text-center">{{ totales.contagiados | number }}</h1>              
+            </div>
+          </div>
+          <div class="card shadow-sm rounded text-white bg-success mb-3">
+            <div class="card-header">Recuperados</div>
+            <div class="card-body">
+              <h1 class="card-title text-center">{{ totales.curados | number }}</h1>
+            </div>
+          </div>
+          <div class="card shadow-sm rounded text-white bg-danger mb-3">
+            <div class="card-header">Muertos</div>
+            <div class="card-body">
+              <h1 class="card-title text-center">{{ totales.muertos | number }}</h1>
+            </div>
+          </div>
+    </div>
+</div>
+
+<div class="card">
+  <div class="card-header">
+    Consulta por pais:
+  </div>
+  <div class="card-body">
+    <select  (change)="obtenerInfo()" class="custom-select mt-3" [formControl]="pais">
+      <option value="" disabled>-- Seleccione un país--</option>
+      <option *ngFor="let c of countries" [value]="c.id">{{c.name}}</option>
+  </select>
+  </div>
+</div>
+
+<hr>
+<div *ngIf="showData">
+  <h5 class="card-title">Última actualización: <small>{{ dateUpdate | date : 'dd-MM-yyyy hh:mm' }}</small></h5>
+    <div class="card mb-3">
+      <div class="card-header mb-3">
+        {{ paisDetail.pais }}
+      </div>
+        <div class="card-columns">
+          <div class="card shadow-sm rounded  bg-light  mb-3">
+            <div class="card-header">Infectados</div>
+            <div class="card-body">
+              <h1 class="card-title text-center">{{paisDetail.contagiados | number}}</h1>
+            </div>
+          </div>          
+          <div class="card shadow-sm rounded  bg-light   mb-3">
+            <div class="card-header">Recuperados</div>
+            <div class="card-body">
+              <h1 class="card-title text-center">{{paisDetail.curados | number}}</h1>
+            </div>
+          </div>
+          <div class="card shadow-sm rounded  bg-light  mb-3">
+            <div class="card-header">Muertes</div>
+            <div class="card-body">
+              <h1 class="card-title text-center">{{paisDetail.muertos | number}}</h1>
+            </div>
+          </div>         
+        </div>
+    </div> 
+    <div  class="card-columns" *ngIf=" info.length > 1 ">
+        <div  *ngFor="let i of info" class="card border-primary mb-3">
+            <div class="card-header">{{i.country  + '-' + i.province + '-'  + i.city}}</div>
+            <div class="card-body text-primary">
+                <p class="card-text">Infectados : <span>{{i.confirmed}}</span></p>
+                <p class="card-text">Muertes : <span>{{i.deaths}}</span></p>
+                <p class="card-text">Recuperados : <span>{{i.recovered}}</span></p>
+            </div>
+          </div>
+    </div>
+</div>
+<h1>Paises más afectados</h1>
+<hr>
+<app-chart [data]="paisesDetail" [labels]="paises"></app-chart>
+<ngx-spinner></ngx-spinner>
